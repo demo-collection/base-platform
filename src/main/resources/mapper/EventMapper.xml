@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yanle.baseplatform.mapper.EventMapper">
+
+    <resultMap id="BaseResultMap" type="com.yanle.baseplatform.entity.Event">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <id column="platform" property="platform" jdbcType="VARCHAR"/>
+        <id column="event_key" property="eventKey" jdbcType="INTEGER"/>
+        <id column="description" property="description" jdbcType="INTEGER"/>
+        <id column="update_time" property="updateTime" jdbcType="DATE"/>
+        <id column="create_time" property="createTime" jdbcType="DATE"/>
+    </resultMap>
+
+    <select id="findAll" resultMap="BaseResultMap">
+        select id, platform, event_key, description
+        from event;
+    </select>
+
+</mapper>
