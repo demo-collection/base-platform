@@ -1,4 +1,4 @@
-package com.yanle.baseplatform.dao;
+package com.yanle.baseplatform.repository;
 
 import com.yanle.baseplatform.entity.Event;
 import com.yanle.baseplatform.mapper.EventMapper;
@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Component(value = "eventDao")
-public class EventDao  {
+@Component(value = "eventRepository")
+public class EventRepository {
     @Autowired
     private EventMapper eventMapper;
 

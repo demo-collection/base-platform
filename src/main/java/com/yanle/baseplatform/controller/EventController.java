@@ -1,6 +1,6 @@
 package com.yanle.baseplatform.controller;
 
-import com.yanle.baseplatform.dao.EventDao;
+import com.yanle.baseplatform.repository.EventRepository;
 import com.yanle.baseplatform.entity.Event;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +15,11 @@ import java.util.stream.Collectors;
 @RequestMapping("/api")
 public class EventController {
     @Autowired
-    private EventDao eventDao;
+    private EventRepository eventRepository;
 
     @GetMapping("/list")
     public List<Event> list() {
-        List<Event> list = eventDao.findAll();
+        List<Event> list = eventRepository.findAll();
 
         List<Event> eventList = list.stream().map(event -> {
             Event tempEvent = new Event();
