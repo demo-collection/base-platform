@@ -20,14 +20,11 @@ public class EventController {
     @GetMapping("/list")
     public List<Event> list() {
         List<Event> list = eventRepository.findAll();
-
-        List<Event> eventList = list.stream().map(event -> {
+        return list.stream().map(event -> {
             Event tempEvent = new Event();
             BeanUtils.copyProperties(event, tempEvent);
             tempEvent.setId(null);
             return tempEvent;
         }).collect(Collectors.toList());
-
-        return eventList;
     }
 }
