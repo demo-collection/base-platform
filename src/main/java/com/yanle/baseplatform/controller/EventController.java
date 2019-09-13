@@ -1,5 +1,6 @@
 package com.yanle.baseplatform.controller;
 
+import com.yanle.baseplatform.data.BaseResponse;
 import com.yanle.baseplatform.repository.EventRepository;
 import com.yanle.baseplatform.entity.Event;
 import org.springframework.beans.BeanUtils;
@@ -18,13 +19,15 @@ public class EventController {
     private EventRepository eventRepository;
 
     @GetMapping("/list")
-    public List<Event> list() {
+    public BaseResponse list() {
         List<Event> list = eventRepository.findAll();
-        return list.stream().map(event -> {
+        List<Event> eventList = list.stream().map(event -> {
             Event tempEvent = new Event();
             BeanUtils.copyProperties(event, tempEvent);
             tempEvent.setId(null);
             return tempEvent;
         }).collect(Collectors.toList());
+
+        return BaseResponse.responseSuccess(eventList, "请求成功");
     }
 }
