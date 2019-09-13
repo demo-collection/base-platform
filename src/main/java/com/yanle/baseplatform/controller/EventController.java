@@ -30,4 +30,9 @@ public class EventController {
 
         return BaseResponse.responseSuccess(eventList, "请求成功");
     }
+
+    @GetMapping("/list/error")
+    public BaseResponse errorList() {
+        return BaseResponse.responseError("error");
+    }
 }
