@@ -12,4 +12,6 @@ public interface EventMapper {
     List<Event> findAll();
 
     void createEvent(CreateEvent createEvent);
+
+    List<Event> findListByPlatform(String platform);
 }

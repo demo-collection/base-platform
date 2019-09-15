@@ -21,4 +21,10 @@
         insert into event set platform=#{platform}, event_key=#{eventKey}, description=#{description}, create_time=now(), update_time=now()
     </insert>
 
+    <select id="findListByPlatform" resultMap="BaseResultMap" parameterType="string">
+        select id, platform, event_key, description
+        from event
+        where platform = #{platform}
+    </select>
+
 </mapper>

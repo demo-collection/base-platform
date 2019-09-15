@@ -5,19 +5,15 @@ import com.yanle.baseplatform.data.BaseResponse;
 import com.yanle.baseplatform.data.qo.CreateEvent;
 import com.yanle.baseplatform.entity.Event;
 import com.yanle.baseplatform.repository.EventRepository;
+import com.yanle.baseplatform.service.EventService;
 import com.yanle.baseplatform.utils.JsonRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/event")
@@ -26,22 +22,26 @@ public class EventController {
     @Autowired
     private EventRepository eventRepository;
 
+    @Autowired
+    private EventService eventService;
+
     /**
      * 列表查询
      *
      * @return response
      */
     @GetMapping("/list")
-    public BaseResponse list() {
-        List<Event> list = eventRepository.findAll();
-        List<Event> eventList = list.stream().map(event -> {
-            Event tempEvent = new Event();
-            BeanUtils.copyProperties(event, tempEvent);
-            tempEvent.setId(null);
-            return tempEvent;
-        }).collect(Collectors.toList());
-
-        return BaseResponse.responseSuccess(eventList, "请求成功");
+    public BaseResponse list(
+            @RequestParam(name = "platform", required = false) String platform,
+            @RequestParam(name = "page", defaultValue = "1") String page,
+            @RequestParam(name = "size", defaultValue = "10") String size
+    ) {
+        List<Event> list = eventService.findList(platform, page, size);
+        if (list != null) {
+            System.out.println(list.size());
+            return BaseResponse.responseSuccess(list, "请求成功");
+        }
+        return BaseResponse.responseError("请求失败");
     }
 
     /**
@@ -62,7 +62,6 @@ public class EventController {
             e.printStackTrace();
             return BaseResponse.responseError(e.getMessage());
         }
-
         return BaseResponse.responseSuccess(null, "success");
     }
 

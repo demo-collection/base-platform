@@ -20,4 +20,8 @@ public class EventRepository {
     public void createEvent(CreateEvent createEvent) {
         eventMapper.createEvent(createEvent);
     }
+
+    public List<Event> findListByPlatform(String platform) {
+        return eventMapper.findListByPlatform(platform);
+    }
 }
