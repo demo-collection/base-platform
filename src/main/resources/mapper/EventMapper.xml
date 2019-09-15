@@ -17,4 +17,8 @@
         from event;
     </select>
 
+    <insert id="createEvent" parameterType="com.yanle.baseplatform.data.qo.CreateEvent">
+        insert into event set platform=#{platform}, event_key=#{eventKey}, description=#{description}, create_time=now(), update_time=now()
+    </insert>
+
 </mapper>

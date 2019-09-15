@@ -1,5 +1,6 @@
 package com.yanle.baseplatform.repository;
 
+import com.yanle.baseplatform.data.qo.CreateEvent;
 import com.yanle.baseplatform.entity.Event;
 import com.yanle.baseplatform.mapper.EventMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,5 +15,9 @@ public class EventRepository {
 
     public List<Event> findAll() {
         return eventMapper.findAll();
+    }
+
+    public void createEvent(CreateEvent createEvent) {
+        eventMapper.createEvent(createEvent);
     }
 }

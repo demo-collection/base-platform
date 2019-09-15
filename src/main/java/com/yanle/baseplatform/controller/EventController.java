@@ -2,9 +2,11 @@ package com.yanle.baseplatform.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.yanle.baseplatform.data.BaseResponse;
+import com.yanle.baseplatform.data.qo.CreateEvent;
 import com.yanle.baseplatform.entity.Event;
 import com.yanle.baseplatform.repository.EventRepository;
 import com.yanle.baseplatform.utils.JsonRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -19,6 +21,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/event")
+@Slf4j
 public class EventController {
     @Autowired
     private EventRepository eventRepository;
@@ -43,33 +46,25 @@ public class EventController {
 
     /**
      * 做一个接受请求payload 实验
+     *
      * @param request request
      * @return response
      */
     @PutMapping(value = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
     public BaseResponse create(HttpServletRequest request) {
+        CreateEvent createEvent;
         try {
             String requestString = JsonRequest.getPayload(request);
-            JSONObject object = JSONObject.parseObject(requestString);
-            return BaseResponse.responseSuccess(object, "success");
+            createEvent = JSONObject.parseObject(requestString, CreateEvent.class);
+            log.info(createEvent.toString());
+            eventRepository.createEvent(createEvent);
         } catch (Exception e) {
-            return BaseResponse.responseError("error");
+            e.printStackTrace();
+            return BaseResponse.responseError(e.getMessage());
         }
 
+        return BaseResponse.responseSuccess(null, "success");
     }
-
-
-//    @GetMapping("/page")
-//    public BaseResponse selectUser(@RequestParam("id") int id) {
-//        PageHelper.startPage(2, 3);
-//        PageHelper.orderBy("name DESC");
-//        List<Event> eventList = eventRepository.findAll();
-//        System.out.println(eventList.toString());
-//        for (int i = 0; i < eventList.size() ; i++) {
-//            System.out.println(eventList.get(i));
-//        }
-//        return BaseResponse.responseSuccess(eventList, "success");
-//    }
 
     /**
      * 抛错误测试
