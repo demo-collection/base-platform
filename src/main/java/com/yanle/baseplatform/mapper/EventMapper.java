@@ -1,5 +1,6 @@
 package com.yanle.baseplatform.mapper;
 
+import com.github.pagehelper.Page;
 import com.yanle.baseplatform.data.qo.CreateEvent;
 import com.yanle.baseplatform.entity.Event;
 import org.springframework.stereotype.Component;
@@ -14,4 +15,6 @@ public interface EventMapper {
     void createEvent(CreateEvent createEvent);
 
     List<Event> findListByPlatform(String platform);
+
+    Page<Event> query();
 }

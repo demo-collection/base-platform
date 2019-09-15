@@ -14,17 +14,21 @@
 
     <select id="findAll" resultMap="BaseResultMap">
         select id, platform, event_key, description
-        from event;
+        from event
     </select>
 
     <insert id="createEvent" parameterType="com.yanle.baseplatform.data.qo.CreateEvent">
         insert into event set platform=#{platform}, event_key=#{eventKey}, description=#{description}, create_time=now(), update_time=now()
     </insert>
 
-    <select id="findListByPlatform" resultMap="BaseResultMap" parameterType="string">
+    <select id="findListByPlatform" resultMap="BaseResultMap" parameterType="String">
         select id, platform, event_key, description
         from event
         where platform = #{platform}
+    </select>
+
+    <select id="query" parameterType="Map" resultMap="BaseResultMap">
+        select * from event
     </select>
 
 </mapper>

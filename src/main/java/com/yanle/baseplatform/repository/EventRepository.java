@@ -1,5 +1,7 @@
 package com.yanle.baseplatform.repository;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.yanle.baseplatform.data.qo.CreateEvent;
 import com.yanle.baseplatform.entity.Event;
 import com.yanle.baseplatform.mapper.EventMapper;
@@ -23,5 +25,10 @@ public class EventRepository {
 
     public List<Event> findListByPlatform(String platform) {
         return eventMapper.findListByPlatform(platform);
+    }
+
+    public Page<Event> query(int page) {
+        PageHelper.startPage(page, 2);
+        return eventMapper.query();
     }
 }
