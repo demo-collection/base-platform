@@ -1,8 +1,10 @@
 package com.yanle.baseplatform.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.yanle.baseplatform.data.BaseResponse;
 import com.yanle.baseplatform.entity.Event;
 import com.yanle.baseplatform.repository.EventRepository;
+import com.yanle.baseplatform.utils.JsonRequest;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -11,10 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,29 +43,19 @@ public class EventController {
 
     /**
      * 做一个接受请求payload 实验
-     * @param request
-     * @return
+     * @param request request
+     * @return response
      */
     @PutMapping(value = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
     public BaseResponse create(HttpServletRequest request) {
-        ServletInputStream inputStream;
         try {
-            inputStream = request.getInputStream();
-            int nRead = 1;
-            int nTotalRead = 0;
-            byte[] bytes = new byte[1024 * 10];
-            while (nRead > 0) {
-                nRead = inputStream.read(bytes, nTotalRead, bytes.length - nTotalRead);
-                if (nRead > 0) {
-                    nTotalRead = nTotalRead + nRead;
-                }
-            }
-            String str = new String(bytes, 0, nTotalRead, StandardCharsets.UTF_8);
-            return BaseResponse.responseSuccess(str, "success");
-        } catch (IOException e) {
-            e.printStackTrace();
+            String requestString = JsonRequest.getPayload(request);
+            JSONObject object = JSONObject.parseObject(requestString);
+            return BaseResponse.responseSuccess(object, "success");
+        } catch (Exception e) {
             return BaseResponse.responseError("error");
         }
+
     }
 
 
