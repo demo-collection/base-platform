@@ -45,6 +45,11 @@ public class EventController {
         return BaseResponse.responseError("请求失败");
     }
 
+    /**
+     * 分页测试
+     * @param page
+     * @return
+     */
     @GetMapping("/list_page")
     public Page<Event> page(
             @RequestParam int page

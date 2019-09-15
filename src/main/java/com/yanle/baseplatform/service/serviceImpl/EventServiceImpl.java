@@ -1,5 +1,6 @@
 package com.yanle.baseplatform.service.serviceImpl;
 
+import com.github.pagehelper.PageHelper;
 import com.yanle.baseplatform.entity.Event;
 import com.yanle.baseplatform.repository.EventRepository;
 import com.yanle.baseplatform.service.EventService;
@@ -24,6 +25,7 @@ public class EventServiceImpl implements EventService {
         List<Event> eventList;
         try {
             if (platform == null) {
+                PageHelper.startPage(Integer.parseInt(page), Integer.parseInt(size));
                 eventList = eventRepository.findAll().stream().map(event -> {
                     Event tempEvent = new Event();
                     BeanUtils.copyProperties(event, tempEvent);
@@ -32,6 +34,7 @@ public class EventServiceImpl implements EventService {
                 }).collect(Collectors.toList());
                 return eventList;
             } else {
+                PageHelper.startPage(Integer.parseInt(page), Integer.parseInt(size));
                 eventList = eventRepository.findListByPlatform(platform);
                 return eventList;
             }
