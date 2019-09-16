@@ -1,7 +1,6 @@
 package com.yanle.baseplatform.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.github.pagehelper.Page;
 import com.yanle.baseplatform.data.BaseResponse;
 import com.yanle.baseplatform.data.qo.CreateEvent;
 import com.yanle.baseplatform.entity.Event;
@@ -44,19 +43,6 @@ public class EventController {
         }
         return BaseResponse.responseError("请求失败");
     }
-
-    /**
-     * 分页测试
-     * @param page
-     * @return
-     */
-    @GetMapping("/list_page")
-    public Page<Event> page(
-            @RequestParam int page
-    ) {
-        return eventRepository.query(page);
-    }
-
 
     /**
      * 做一个接受请求payload 实验
